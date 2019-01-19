@@ -21,10 +21,7 @@ class Parser {
     private Pattern r = Pattern.compile(pattern);
 
     static List<List<City>> divideCitiesToEqualPair(List<City> cities, DivisionAlgorithmType algorithmType) {
-        DivisionAlgorithm algorithm = new GreedyCycle();
-        if (!algorithmType.equals(DivisionAlgorithmType.GREEDY_CYCLE)) {
-            algorithm = new NN();
-        }
+
         City leftFirstCity = cities.get(rand.nextInt(100));
         City rightFirstCity = cities.get(rand.nextInt(100));
         while (leftFirstCity.equals(rightFirstCity)) {
@@ -38,21 +35,30 @@ class Parser {
         cities.remove(leftFirstCity);
         cities.remove(rightFirstCity);
 
+        DivisionAlgorithm firstAlgorithm = new GreedyCycle(leftFirstCity);
+        DivisionAlgorithm secondAlgorithm = new GreedyCycle(rightFirstCity);
 
-        City leftActualCity;
-        City rightActualCity;
+        if (!algorithmType.equals(DivisionAlgorithmType.GREEDY_CYCLE)) {
+            firstAlgorithm = new NN();
+            secondAlgorithm = new NN();
+        }
+
+
+        City leftCurrentCity;
+        City rightCurrentCity;
         City leftNextCity;
         City rightNextCity;
 
         int forSize = cities.size() / 2;
-        for (int i = 0; i < forSize; i++) {
-            leftActualCity = leftList.get(leftList.size() - 1);
-            rightActualCity = rightList.get(rightList.size() - 1);
 
-            leftNextCity = algorithm.nextPoint(cities, leftActualCity);
+        for (int i = 0; i < forSize; i++) {
+            leftCurrentCity = leftList.get(leftList.size() - 1);
+            rightCurrentCity = rightList.get(rightList.size() - 1);
+
+            leftNextCity = firstAlgorithm.nextPoint(cities, leftCurrentCity);
             leftList.add(leftNextCity);
             cities.remove(leftNextCity);
-            rightNextCity = algorithm.nextPoint(cities, rightActualCity);
+            rightNextCity = secondAlgorithm.nextPoint(cities, rightCurrentCity);
             rightList.add(rightNextCity);
             cities.remove(rightNextCity);
 
