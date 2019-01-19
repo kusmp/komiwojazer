@@ -80,10 +80,20 @@ class Controller {
     private static void addCities(DivisionAlgorithmType algorithmType) {
         List<List<City>> lists = Parser.divideCitiesToEqualPair(cities, algorithmType);
 
-        OptimalizationAlgorithm alg = new LP(lists.get(0));
-        orderedCities = alg.arrangePoints();
-        alg = new LP(lists.get(1));
-        orderedCities2 = alg.arrangePoints();
+        orderedCities = new ArrayList<>();
+        orderedCities2 = new ArrayList<>();
+
+        OptimalizationAlgorithm optAlg = new LP();
+
+        for(int i = 0; i < 100; i++){
+            orderedCities = optAlg.arrangePoints(lists.get(0));
+            orderedCities2 = optAlg.arrangePoints(lists.get(1));
+        }
+
+//        OptimalizationAlgorithm alg = new LP(lists.get(0));
+//        orderedCities = alg.arrangePoints();
+//        alg = new LP(lists.get(1));
+//        orderedCities2 = alg.arrangePoints();
     }
 
 
