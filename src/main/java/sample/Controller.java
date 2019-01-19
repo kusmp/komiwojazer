@@ -84,12 +84,8 @@ class Controller {
         orderedCities = new ArrayList<>();
         orderedCities2 = new ArrayList<>();
 
-        OptimalizationAlgorithm optAlg = new ILP();
-
-
         OptimalizationAlgorithm alg = new ILP();
         orderedCities = alg.arrangePoints(lists.get(0));
-        alg = new ILP();
         orderedCities2 = alg.arrangePoints(lists.get(1));
     }
 

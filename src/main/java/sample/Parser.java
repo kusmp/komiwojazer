@@ -66,7 +66,6 @@ class Parser {
             cities.remove(rightNextCity);
 
         }
-
         return Arrays.asList(leftList, rightList);
     }
 
