@@ -1,8 +1,6 @@
 package algorithms.optimalization;
 
-import algorithms.initial_division.DivisionAlgorithm;
 import algorithms.initial_division.GreedyCycle;
-import algorithms.optimalization.LP;
 import sample.City;
 import sample.EuclideanDistance;
 
@@ -20,7 +18,7 @@ public class ILP implements OptimalizationAlgorithm {
     public List<City> arrangePoints(List<City> citiesPath) {
         int noImprovalCount = 0;
         double bestPathDistance = EuclideanDistance.calcForPath(citiesPath);
-        while (noImprovalCount < 1000) {
+        while (noImprovalCount < 10) {
             List<City> newCitiesPath = perturbation(citiesPath);
             newCitiesPath = localSearch.arrangePoints(newCitiesPath);
             double currentIterationDistance = EuclideanDistance.calcForPath(newCitiesPath);
@@ -61,6 +59,24 @@ public class ILP implements OptimalizationAlgorithm {
         return newPath;
 
     }
+
+//    private List<City> perturbate(List<City> citiesPath) {
+//        List<City> newPath = new ArrayList<>(citiesPath);
+//        for (int i = 0; i < 4; i++) {
+//            int randomPoint = random.nextInt(citiesPath.size() - 1) + 1;
+//            int nextRandomPoint = random.nextInt(citiesPath.size() - 1) + 1;
+//            newPath = switchPoints(citiesPath, randomPoint, nextRandomPoint);
+//        }
+//        return newPath;
+//    }
+//
+//    private List<City> switchPoints(List<City> citiesPath, int randomPoint, int nextRandomPoint) {
+//        List<City> newCitiesPath = new ArrayList<>(citiesPath);
+//        City tempCity = newCitiesPath.get(randomPoint);
+//        newCitiesPath.set(randomPoint, newCitiesPath.get(nextRandomPoint));
+//        newCitiesPath.set(nextRandomPoint, tempCity);
+//        return newCitiesPath;
+//    }
 
 
 

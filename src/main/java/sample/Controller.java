@@ -86,10 +86,6 @@ class Controller {
 
         OptimalizationAlgorithm optAlg = new ILP();
 
-        for(int i = 0; i < 100; i++){
-            orderedCities = optAlg.arrangePoints(lists.get(0));
-            orderedCities2 = optAlg.arrangePoints(lists.get(1));
-        }
 
         OptimalizationAlgorithm alg = new ILP();
         orderedCities = alg.arrangePoints(lists.get(0));
