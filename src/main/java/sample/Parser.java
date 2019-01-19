@@ -22,8 +22,11 @@ class Parser {
 
     static List<List<City>> divideCitiesToEqualPair(List<City> cities, DivisionAlgorithmType algorithmType) {
 
-        City leftFirstCity = cities.get(rand.nextInt(100));
-        City rightFirstCity = cities.get(rand.nextInt(100));
+        City leftFirstCity = cities.get(57);
+        City rightFirstCity = cities.get(6);
+        System.out.println("left City: " + Integer.toString(cities.indexOf(leftFirstCity)));
+        System.out.println("right City: " + Integer.toString(cities.indexOf(rightFirstCity)));
+
         while (leftFirstCity.equals(rightFirstCity)) {
             rightFirstCity = cities.get(rand.nextInt(100));
         }

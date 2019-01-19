@@ -21,7 +21,7 @@ public class LP implements OptimalizationAlgorithm {
             for (List<City> path : newPaths) {
                 double newDistance = EuclideanDistance.calcForPath(path);
                 if (newDistance < currentTotalDistance) {
-                    System.out.println("Dist. delta: " + (newDistance - currentTotalDistance) + " -- Total curr. dist: " + newDistance);
+                   // System.out.println("Dist. delta: " + (newDistance - currentTotalDistance) + " -- Total curr. dist: " + newDistance);
                     currentTotalDistance = newDistance;
                     citiesPath = path;
                     next = true;
@@ -30,7 +30,7 @@ public class LP implements OptimalizationAlgorithm {
         } while (next);
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
-        System.out.println("Local Search time elapsed: " + elapsedTime + " ms");
+        //System.out.println("Local Search time elapsed: " + elapsedTime + " ms");
         return citiesPath;
     }
 

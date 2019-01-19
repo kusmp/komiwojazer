@@ -2,6 +2,7 @@ package sample;
 
 
 import algorithms.initial_division.DivisionAlgorithmType;
+import algorithms.optimalization.ILP;
 import algorithms.optimalization.LP;
 import algorithms.optimalization.OptimalizationAlgorithm;
 import javafx.geometry.Insets;
@@ -83,17 +84,17 @@ class Controller {
         orderedCities = new ArrayList<>();
         orderedCities2 = new ArrayList<>();
 
-        OptimalizationAlgorithm optAlg = new LP();
+        OptimalizationAlgorithm optAlg = new ILP();
 
         for(int i = 0; i < 100; i++){
             orderedCities = optAlg.arrangePoints(lists.get(0));
             orderedCities2 = optAlg.arrangePoints(lists.get(1));
         }
 
-//        OptimalizationAlgorithm alg = new LP(lists.get(0));
-//        orderedCities = alg.arrangePoints();
-//        alg = new LP(lists.get(1));
-//        orderedCities2 = alg.arrangePoints();
+        OptimalizationAlgorithm alg = new ILP();
+        orderedCities = alg.arrangePoints(lists.get(0));
+        alg = new ILP();
+        orderedCities2 = alg.arrangePoints(lists.get(1));
     }
 
 

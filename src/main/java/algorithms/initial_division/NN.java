@@ -1,11 +1,10 @@
 package algorithms.initial_division;
 
+import algorithms.initial_division.DivisionAlgorithm;
 import sample.City;
 import sample.EuclideanDistance;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NN implements DivisionAlgorithm {
 
@@ -14,15 +13,8 @@ public class NN implements DivisionAlgorithm {
     @Override
     public City nextPoint(List<City> points, City actualPoint) {
         Map<City, Double> distanceLengths = new HashMap<>();
-        for (City point : points) {
-            distanceLengths.put(point, EuclideanDistance.calc(actualPoint, point));
-        }
-        Map.Entry<City, Double> min = null;
-        for (Map.Entry<City, Double> entry : distanceLengths.entrySet()) {
-            if (min == null || min.getValue() > entry.getValue()) {
-                min = entry;
-            }
-        }
+        points.forEach(point -> distanceLengths.put(point, EuclideanDistance.calc(actualPoint, point)));
+        Map.Entry<City, Double> min = Collections.min(distanceLengths.entrySet(), Comparator.comparing(Map.Entry::getValue));
         return min.getKey();
     }
 }

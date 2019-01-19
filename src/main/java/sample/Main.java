@@ -13,5 +13,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 //        Controller.show(DivisionAlgorithmType.NN);
         Controller.show(DivisionAlgorithmType.GREEDY_CYCLE);
+        Controller.show(DivisionAlgorithmType.NN);
     }
 }

@@ -1,8 +1,8 @@
 package sample;
 
 public class City {
-    private double x;
-    private double y;
+    public double x;
+    public double y;
 
     City(String x, String y) {
         this.x = Double.parseDouble(x);
