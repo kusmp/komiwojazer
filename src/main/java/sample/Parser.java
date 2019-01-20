@@ -16,19 +16,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class Parser {
-    private static Random rand = new Random();
     private String pattern = "[0-9]{1,4}\\s[0-9]{1,4}\\s[0-9]{1,4}";
     private Pattern r = Pattern.compile(pattern);
 
-    static List<List<City>> divideCitiesToEqualPair(List<City> cities, DivisionAlgorithmType algorithmType) {
-
-        City leftFirstCity = cities.get(57);
-        City rightFirstCity = cities.get(6);
-        System.out.println("left City: " + Integer.toString(cities.indexOf(leftFirstCity)));
-        System.out.println("right City: " + Integer.toString(cities.indexOf(rightFirstCity)));
+    static List<List<City>> divideCitiesToEqualPair(List<City> citiesList, DivisionAlgorithmType algorithmType) {
+        List<City> cities = new ArrayList<>(citiesList);
+        Random rand = new Random();
+        City leftFirstCity = cities.get(rand.nextInt(150));
+        City rightFirstCity = cities.get(rand.nextInt(150));
+//        System.out.println("left City: " + Integer.toString(cities.indexOf(leftFirstCity)));
+//        System.out.println("right City: " + Integer.toString(cities.indexOf(rightFirstCity)));
 
         while (leftFirstCity.equals(rightFirstCity)) {
-            rightFirstCity = cities.get(rand.nextInt(100));
+            rightFirstCity = cities.get(rand.nextInt(150));
         }
 
         List<City> leftList = new ArrayList<>();
@@ -73,7 +73,7 @@ class Parser {
         List<String> points = new ArrayList<>();
         String[] splitLine;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass()
-                .getResourceAsStream("/data/kroA100.tsp")))) {
+                .getResourceAsStream("/data/kroA150.tsp")))) {
             String line;
             while ((line = br.readLine()) != null) {
                 Matcher m = r.matcher(line);

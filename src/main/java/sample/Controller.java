@@ -1,6 +1,7 @@
 package sample;
 
 
+import algorithms.initial_division.DivisionAlgorithm;
 import algorithms.initial_division.DivisionAlgorithmType;
 import algorithms.optimalization.ILP;
 import algorithms.optimalization.LP;
@@ -17,8 +18,10 @@ import javafx.scene.text.Font;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.transform.sax.SAXSource;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 class Controller {
 
@@ -26,7 +29,8 @@ class Controller {
     private static List<City> orderedCities = new ArrayList<>();
     private static List<City> orderedCities2 = new ArrayList<>();
 
-    private Controller() {}
+    private Controller() {
+    }
 
     private static List<Circle> addPoint(Color color) {
         cities = new ArrayList<>();
@@ -79,14 +83,89 @@ class Controller {
     }
 
     private static void addCities(DivisionAlgorithmType algorithmType) {
-        List<List<City>> lists = Parser.divideCitiesToEqualPair(cities, algorithmType);
+        List<City> listofCities = new ArrayList<>(cities);
+        List<List<City>> listOfPairs = new ArrayList<>();
+        List<List<City>> listOfPairs2 = new ArrayList<>();
+        long startTime = System.currentTimeMillis();
+        List<List<City>> lists = Parser.divideCitiesToEqualPair(listofCities, algorithmType);
+        List<Double> pathLengths = new ArrayList<>();
 
-        orderedCities = new ArrayList<>();
-        orderedCities2 = new ArrayList<>();
+        Map<Integer, List<List<Integer>>> leftMap = new HashMap<>();
+        Map<Integer, List<List<Integer>>> rightMap = new HashMap<>();
+        OptimalizationAlgorithm alg = new LP();
 
-        OptimalizationAlgorithm alg = new ILP();
-        orderedCities = alg.arrangePoints(lists.get(0));
-        orderedCities2 = alg.arrangePoints(lists.get(1));
+
+        //System.out.println(listOfRightIndex);
+        List<Integer> leftPairs = new ArrayList<>();
+        List<Integer> rightPairs = new ArrayList<>();
+        List<List<Integer>> duplicatesCount = new ArrayList<>();
+        List<List<Integer>> listOfLeftIndex1 = new ArrayList<>();
+        List<List<Integer>> listOfRightIndex1 = new ArrayList<>();
+
+        for (int m = 0; m < 1000; m++) {
+            lists = Parser.divideCitiesToEqualPair(listofCities, algorithmType);
+            orderedCities = alg.arrangePoints(lists.get(0));
+            orderedCities2 = alg.arrangePoints(lists.get(1));
+
+            List<Integer> listOfLeftIndex = new ArrayList<>();
+            List<Integer> listOfRightIndex = new ArrayList<>();
+            for (City orderedCity : orderedCities) {
+                listOfLeftIndex.add(cities.indexOf(orderedCity));
+            }
+            for (City orderedCity : orderedCities2) {
+                listOfRightIndex.add(cities.indexOf(orderedCity));
+            }
+
+            for (int i = 0; i < listOfLeftIndex.size(); i++) {
+                int next = i + 1;
+                if (next == listOfLeftIndex.size()) {
+                    next = 0;
+                }
+                leftPairs.add(listOfLeftIndex.get(i));
+                leftPairs.add(listOfLeftIndex.get(next));
+                listOfLeftIndex1.add(leftPairs);
+                leftPairs = new ArrayList<>();
+            }
+            duplicatesCount.add(leftPairs);
+
+            for (int i = 0; i < listOfRightIndex.size(); i++) {
+                int next = i + 1;
+                if (next == listOfRightIndex.size()) {
+                    next = 0;
+                }
+                rightPairs.add(listOfRightIndex.get(i));
+                rightPairs.add(listOfRightIndex.get(next));
+                listOfRightIndex1.add(rightPairs);
+                rightPairs = new ArrayList<>();
+            }
+            System.out.println(m);
+            rightMap.put(m, listOfRightIndex1);
+        }
+
+        Set<List<Integer>> uniqueLeft = new HashSet<>(listOfRightIndex1);
+        for (List<Integer> key : uniqueLeft) {
+            System.out.println(key + ": " + Collections.frequency(listOfRightIndex1, key));
+        }
+
+        Set<List<Integer>> uniqueRight = new HashSet<>(listOfRightIndex1);
+        for (List<Integer> key : uniqueRight) {
+            System.out.println(key + ": " + Collections.frequency(listOfRightIndex1, key));
+        }
+
+
+
+
+        long estimatedTime = System.currentTimeMillis() - startTime;
+
+//        System.out.println("Max: " + Collections.max(pathLengths));
+//        System.out.println("Min: " + Collections.min(pathLengths));
+//        System.out.println("Average: " + pathLengths.stream().mapToDouble(a -> a).average());
+//        System.out.println("Time: " + (double) estimatedTime / (double) 1000);
+
+
+//
+//        orderedCities = alg.arrangePoints(lists.get(0));
+//        orderedCities2 = alg.arrangePoints(lists.get(1));
     }
 
 
@@ -132,4 +211,6 @@ class Controller {
         primaryStage.show();
     }
 }
+
+
 
